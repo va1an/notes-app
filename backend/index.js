@@ -12,7 +12,7 @@ import { protect } from './middleware/authMiddleware.js';
 const app = express();
 
 const allowedOrigins = [
-    "https://notes-app-mf1k.onrender.com",
+    "https://notes-app-roan-xi.vercel.app",
     "http://localhost:5173"
 ]
 
