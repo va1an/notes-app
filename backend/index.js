@@ -9,6 +9,8 @@ import noteRoutes from './routes/noteRoutes.js';
 import tagRoutes from "./routes/tagRoutes.js";
 import { protect } from './middleware/authMiddleware.js';
 
+dotenv.config();
+
 const app = express();
 
 const allowedOrigins = [
@@ -16,8 +18,6 @@ const allowedOrigins = [
     "http://localhost:5173"
 ]
 
-app.use(bodyParser.json());
-dotenv.config();
 app.use(cors({
     origin: allowedOrigins,
     credentials: true,
@@ -26,7 +26,14 @@ app.use(cors({
 }));
 
 app.options("*", cors());
+
+app.use(bodyParser.json());
+
 app.use(cookieParser());
+
+app.use("/api/auth", authRoutes);
+app.use("/api", protect, noteRoutes);
+app.use("/api", protect, tagRoutes);
 
 const PORT = process.env.PORT || 8000;
 const MONGOURL = process.env.MONGO_URL;
@@ -36,8 +43,3 @@ mongoose.connect(MONGOURL)
         console.log("MongoDB connected successfully");
         app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     })
-
-
-app.use("/api/auth", authRoutes);
-app.use("/api", protect, noteRoutes);
-app.use("/api", protect, tagRoutes);
