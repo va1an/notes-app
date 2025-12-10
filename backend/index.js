@@ -11,10 +11,15 @@ import { protect } from './middleware/authMiddleware.js';
 
 const app = express();
 
+const allowedOrigins = [
+    "https://notes-app-mf1k.onrender.com",
+    "http://localhost:5173"
+]
+
 app.use(bodyParser.json());
 dotenv.config();
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true
 }));
 app.use(cookieParser());
